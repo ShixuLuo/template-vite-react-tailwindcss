@@ -38,6 +38,66 @@ export default defineConfig({
 
 Also remember to import tailwindcss in one of your CSS file.
 
+### Vitest
+
+```bash
+yarn add -D vitest
+```
+
+Modify `package.json`
+```JSON
+"scripts": {
+   "test": "vitest"
+}
+```
+
+```bash
+yarn add -D jsdom
+```
+
+Modify `vite.config.ts`
+```typescript
+export default defineConfig({
+  test: {
+    environment: 'jsdom',
+  },
+  ...
+})
+```
+
+```bash
+yarn add -D @testing-library/react @testing-library/jest-dom @testing-library/user-event
+```
+
+Create `tests/setup.ts`
+```typescript
+import { expect, afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import * as matchers from "@testing-library/jest-dom/matchers";
+
+expect.extend(matchers);
+
+afterEach(() => {
+  cleanup();
+});
+```
+
+Modify `vite.config.ts`
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
++   globals: true,
+    environment: 'jsdom',
++   setupFiles: './tests/setup.ts',
+  },
+});
+```
+
 ### React Router
 
 ```bash
