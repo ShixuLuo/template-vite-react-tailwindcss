@@ -1,3 +1,4 @@
 {
+    "globalImports": ["src/index.css"],
     "plugins": ["react-cosmos-plugin-vite"]
 }
